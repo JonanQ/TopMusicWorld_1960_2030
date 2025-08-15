@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Top 30 Reino Unido (Carátulas Discogs) — GitHub Pages</title>
+  <title>Top 30 Reino Unido (Carátulas Discogs) — GitHub Pages + oEmbed check</title>
 
   <!-- Performance hints -->
   <link rel="preconnect" href="https://www.youtube-nocookie.com">
@@ -51,7 +51,7 @@
         <h2>Reino Unido</h2>
         <h3>Top 30 canciones por década</h3>
       </hgroup>
-      <p>Haz clic en una canción para reproducir su video. Si el vídeo no permite “embed”, se abrirá en YouTube automáticamente.</p>
+      <p>Haz clic en una canción para reproducir su video. Si el vídeo no permite “embed”, se abrirá en YouTube automáticamente. Los no embebibles se marcan con “↗ abrirá en YouTube”.</p>
 
       <figure>
         <img class="banner-img" src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Londres, Reino Unido - Big Ben y paisaje urbano" loading="lazy" decoding="async" />
@@ -128,16 +128,16 @@
       videoId: videoId,
       playerVars: {
         autoplay: 1,
-        mute: 1,               // ayuda con autoplay en navegadores modernos
+        mute: 1,
         rel: 0,
         modestbranding: 1,
         enablejsapi: 1,
-        origin: location.origin // recomendado para GitHub Pages / dominios propios
+        origin: location.origin
       },
       events: {
         onError: (e) => {
-          // 101/150 => embedding deshabilitado; otros códigos: 2,5,100
           if (e?.data === 101 || e?.data === 150) {
+            alert("Este vídeo no permite incrustación. Abro YouTube en otra pestaña.");
             window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank', 'noopener');
           }
         }
@@ -166,11 +166,9 @@
 
     modal.classList.add('show');
 
-    // Si la API ya está lista:
     if (window.YT && window.YT.Player) {
       buildPlayer(videoId);
     } else {
-      // Registra callback si aún no cargó
       window.onYouTubeIframeAPIReady = () => buildPlayer(videoId);
     }
   }
@@ -189,6 +187,60 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeVideo();
   });
+</script>
+
+<!-- oEmbed pre-check (sin API key) -->
+<script>
+  const embeddableMap = new Map();
+
+  function getVideoIdFromLink(a) {
+    const m = a.getAttribute('onclick')?.match(/loadVideo\('([^']+)'/);
+    return m ? m[1] : null;
+  }
+
+  async function isEmbeddable(id) {
+    const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
+    try {
+      const res = await fetch(url, { method: 'GET' });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  async function checkAllEmbeds() {
+    const anchors = Array.from(document.querySelectorAll('#songList a'));
+    for (const a of anchors) {
+      const id = getVideoIdFromLink(a);
+      if (!id || embeddableMap.has(id)) continue;
+      await new Promise(r => setTimeout(r, 150));
+      const ok = await isEmbeddable(id);
+      embeddableMap.set(id, ok);
+      if (!ok) {
+        const badge = document.createElement('span');
+        badge.textContent = '↗ abrirá en YouTube';
+        badge.style.fontSize = '0.8rem';
+        badge.style.marginLeft = '0.5rem';
+        badge.style.opacity = '0.8';
+        a.after(badge);
+        a.title = 'Este vídeo no se puede incrustar; se abrirá en YouTube.';
+      }
+    }
+  }
+
+  (function(){
+    const originalLoad = window.loadVideo;
+    window.loadVideo = function(videoId, event) {
+      if (embeddableMap.has(videoId) && embeddableMap.get(videoId) === false) {
+        event?.preventDefault?.();
+        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank', 'noopener');
+        return;
+      }
+      return originalLoad(videoId, event);
+    };
+  })();
+
+  document.addEventListener('DOMContentLoaded', checkAllEmbeds);
 </script>
 
 <section aria-label="Subscribe example">
