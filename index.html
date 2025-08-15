@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Top 30 Reino Unido — GitHub Pages (lista sin parpadeos)</title>
+  <title>Top 30 Reino Unido — GitHub Pages (filtrado en build)</title>
 
-  <!-- Performance hints -->
   <link rel="preconnect" href="https://www.youtube-nocookie.com">
   <link rel="preconnect" href="https://www.youtube.com">
   <link rel="preconnect" href="https://i.ytimg.com">
@@ -26,24 +25,20 @@
     }
     .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666; }
     .close-btn:hover { color: #000; }
-    #videoPlayer { width: 100%; height: 450px; border-radius: 4px; }
+    iframe#videoFrame, #videoPlayer { width: 100%; height: 450px; border: none; border-radius: 4px; }
     .banner-img { width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 0.5rem; }
     ul#songList li { list-style: none; display: flex; align-items: center; margin-bottom: 0.75rem; }
     ul#songList img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; margin-right: 0.75rem; }
     ul#songList a { text-decoration: none; color: var(--primary); }
-    .muted { color: #666; font-size: 0.9rem; }
-    .hidden { display: none !important; }
-    .loading { opacity: 0.5; }
   </style>
 
-  <!-- IFrame Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
 <nav class="container-fluid">
   <ul>
-    <li><strong>Top 30 UK (YouTube + Carátulas) — solo embebibles</strong></li>
+    <li><strong>Top 30 UK (YouTube + Carátulas) — filtrado en build</strong></li>
   </ul>
 </nav>
 
@@ -54,58 +49,54 @@
         <h2>Reino Unido</h2>
         <h3>Top 30 canciones por década</h3>
       </hgroup>
-      <p class="muted">Filtramos en segundo plano y mostramos solo los vídeos embebibles.</p>
+      <p>La lista ya viene filtrada desde el despliegue (GitHub Actions + YouTube API) para mostrar solo vídeos embebibles.</p>
 
       <figure>
         <img class="banner-img" src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Londres, Reino Unido - Big Ben y paisaje urbano" loading="lazy" decoding="async" />
         <figcaption><a href="https://unsplash.com/photos/2d4lAQAlbDA" target="_blank" rel="noopener">Imagen desde Unsplash</a></figcaption>
       </figure>
 
-      <p id="status" class="muted">Comprobando vídeos…</p>
-      <ul id="songList" class="hidden"></ul>
-
-      <!-- Plantilla de datos (no visible) -->
-      <template id="songs-template">
+      <ul id="songList">
         <!-- 1970s -->
-        <li data-id="fJ9rUzIMcZQ"><img src="https://img.youtube.com/vi/fJ9rUzIMcZQ/mqdefault.jpg" alt="Queen"><a href="#" data-title="Bohemian Rhapsody - Queen – 1970s">Bohemian Rhapsody - Queen – 1970s</a></li>
-        <li data-id="YkgkThdzX-8"><img src="https://img.youtube.com/vi/YkgkThdzX-8/mqdefault.jpg" alt="John Lennon"><a href="#" data-title="Imagine - John Lennon – 1970s">Imagine - John Lennon – 1970s</a></li>
-        <li data-id="tPzHs4-_MdM"><img src="https://img.youtube.com/vi/tPzHs4-_MdM/mqdefault.jpg" alt="Led Zeppelin"><a href="#" data-title="Whole Lotta Love - Led Zeppelin – 1970s">Whole Lotta Love - Led Zeppelin – 1970s</a></li>
-        <li data-id="d5iIZ_ikSUw"><img src="https://img.youtube.com/vi/d5iIZ_ikSUw/mqdefault.jpg" alt="Pink Floyd"><a href="#" data-title="Another Brick in the Wall - Pink Floyd – 1970s">Another Brick in the Wall - Pink Floyd – 1970s</a></li>
-        <li data-id="OMOGaugKpzs"><img src="https://img.youtube.com/vi/OMOGaugKpzs/mqdefault.jpg" alt="The Beatles"><a href="#" data-title="Come Together - The Beatles – 1970s">Come Together - The Beatles – 1970s</a></li>
-        <li data-id="RFGo5cqcxP4"><img src="https://img.youtube.com/vi/RFGo5cqcxP4/mqdefault.jpg" alt="Elton John"><a href="#" data-title="Rocket Man - Elton John – 1970s">Rocket Man - Elton John – 1970s</a></li>
+        <li><img src="https://img.youtube.com/vi/fJ9rUzIMcZQ/mqdefault.jpg" alt="Queen"><a href="#" onclick="loadVideo('fJ9rUzIMcZQ', event)">Bohemian Rhapsody - Queen – 1970s</a></li>
+        <li><img src="https://img.youtube.com/vi/YkgkThdzX-8/mqdefault.jpg" alt="John Lennon"><a href="#" onclick="loadVideo('YkgkThdzX-8', event)">Imagine - John Lennon – 1970s</a></li>
+        <li><img src="https://img.youtube.com/vi/tPzHs4-_MdM/mqdefault.jpg" alt="Led Zeppelin"><a href="#" onclick="loadVideo('tPzHs4-_MdM', event)">Whole Lotta Love - Led Zeppelin – 1970s</a></li>
+        <li><img src="https://img.youtube.com/vi/d5iIZ_ikSUw/mqdefault.jpg" alt="Pink Floyd"><a href="#" onclick="loadVideo('d5iIZ_ikSUw', event)">Another Brick in the Wall - Pink Floyd – 1970s</a></li>
+        <li><img src="https://img.youtube.com/vi/OMOGaugKpzs/mqdefault.jpg" alt="The Beatles"><a href="#" onclick="loadVideo('OMOGaugKpzs', event)">Come Together - The Beatles – 1970s</a></li>
+        <li><img src="https://img.youtube.com/vi/RFGo5cqcxP4/mqdefault.jpg" alt="Elton John"><a href="#" onclick="loadVideo('RFGo5cqcxP4', event)">Rocket Man - Elton John – 1970s</a></li>
 
         <!-- 1980s -->
-        <li data-id="ftjEcrrf7r0"><img src="https://img.youtube.com/vi/ftjEcrrf7r0/mqdefault.jpg" alt="U2"><a href="#" data-title="With or Without You - U2 – 1980s">With or Without You - U2 – 1980s</a></li>
-        <li data-id="Zi_XLOBDo_Y"><img src="https://img.youtube.com/vi/Zi_XLOBDo_Y/mqdefault.jpg" alt="Michael Jackson"><a href="#" data-title="Billie Jean - Michael Jackson – 1980s">Billie Jean - Michael Jackson – 1980s</a></li>
-        <li data-id="djV11Xbc914"><img src="https://img.youtube.com/vi/djV11Xbc914/mqdefault.jpg" alt="a-ha"><a href="#" data-title="Take On Me - a-ha – 1980s">Take On Me - a-ha – 1980s</a></li>
-        <li data-id="nM_txL43iFc"><img src="https://img.youtube.com/vi/nM_txL43iFc/mqdefault.jpg" alt="Duran Duran"><a href="#" data-title="Hungry Like the Wolf - Duran Duran – 1980s">Hungry Like the Wolf - Duran Duran – 1980s</a></li>
-        <li data-id="9jK-NcRmVcw"><img src="https://img.youtube.com/vi/9jK-NcRmVcw/mqdefault.jpg" alt="Europe"><a href="#" data-title="The Final Countdown - Europe – 1980s">The Final Countdown - Europe – 1980s</a></li>
-        <li data-id="rY0WxgSXdEE"><img src="https://img.youtube.com/vi/rY0WxgSXdEE/mqdefault.jpg" alt="The Police"><a href="#" data-title="Every Breath You Take - The Police – 1980s">Every Breath You Take - The Police – 1980s</a></li>
+        <li><img src="https://img.youtube.com/vi/ftjEcrrf7r0/mqdefault.jpg" alt="U2"><a href="#" onclick="loadVideo('ftjEcrrf7r0', event)">With or Without You - U2 – 1980s</a></li>
+        <li><img src="https://img.youtube.com/vi/Zi_XLOBDo_Y/mqdefault.jpg" alt="Michael Jackson"><a href="#" onclick="loadVideo('Zi_XLOBDo_Y', event)">Billie Jean - Michael Jackson – 1980s</a></li>
+        <li><img src="https://img.youtube.com/vi/djV11Xbc914/mqdefault.jpg" alt="a-ha"><a href="#" onclick="loadVideo('djV11Xbc914', event)">Take On Me - a-ha – 1980s</a></li>
+        <li><img src="https://img.youtube.com/vi/nM_txL43iFc/mqdefault.jpg" alt="Duran Duran"><a href="#" onclick="loadVideo('nM_txL43iFc', event)">Hungry Like the Wolf - Duran Duran – 1980s</a></li>
+        <li><img src="https://img.youtube.com/vi/9jK-NcRmVcw/mqdefault.jpg" alt="Europe"><a href="#" onclick="loadVideo('9jK-NcRmVcw', event)">The Final Countdown - Europe – 1980s</a></li>
+        <li><img src="https://img.youtube.com/vi/rY0WxgSXdEE/mqdefault.jpg" alt="The Police"><a href="#" onclick="loadVideo('rY0WxgSXdEE', event)">Every Breath You Take - The Police – 1980s</a></li>
 
         <!-- 1990s -->
-        <li data-id="luwAMFcc2f8"><img src="https://img.youtube.com/vi/luwAMFcc2f8/mqdefault.jpg" alt="Robbie Williams"><a href="#" data-title="Angels - Robbie Williams – 1990s">Angels - Robbie Williams – 1990s</a></li>
-        <li data-id="bx1Bh8ZvH84"><img src="https://img.youtube.com/vi/bx1Bh8ZvH84/mqdefault.jpg" alt="Oasis"><a href="#" data-title="Wonderwall - Oasis – 1990s">Wonderwall - Oasis – 1990s</a></li>
-        <li data-id="SSbBvKaM6sk"><img src="https://img.youtube.com/vi/SSbBvKaM6sk/mqdefault.jpg" alt="Blur"><a href="#" data-title="Song 2 - Blur – 1990s">Song 2 - Blur – 1990s</a></li>
-        <li data-id="CSvFpBOe8eY"><img src="https://img.youtube.com/vi/CSvFpBOe8eY/mqdefault.jpg" alt="Spice Girls"><a href="#" data-title="Spice Up Your Life - Spice Girls – 1990s">Spice Up Your Life - Spice Girls – 1990s</a></li>
-        <li data-id="TB54dZkzZOY"><img src="https://img.youtube.com/vi/TB54dZkzZOY/mqdefault.jpg" alt="Take That"><a href="#" data-title="Back for Good - Take That – 1990s">Back for Good - Take That – 1990s</a></li>
-        <li data-id="6p0DAz_30qQ"><img src="https://img.youtube.com/vi/6p0DAz_30qQ/mqdefault.jpg" alt="Radiohead"><a href="#" data-title="Creep - Radiohead – 1990s">Creep - Radiohead – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/luwAMFcc2f8/mqdefault.jpg" alt="Robbie Williams"><a href="#" onclick="loadVideo('luwAMFcc2f8', event)">Angels - Robbie Williams – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/bx1Bh8ZvH84/mqdefault.jpg" alt="Oasis"><a href="#" onclick="loadVideo('bx1Bh8ZvH84', event)">Wonderwall - Oasis – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/SSbBvKaM6sk/mqdefault.jpg" alt="Blur"><a href="#" onclick="loadVideo('SSbBvKaM6sk', event)">Song 2 - Blur – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/CSvFpBOe8eY/mqdefault.jpg" alt="Spice Girls"><a href="#" onclick="loadVideo('CSvFpBOe8eY', event)">Spice Up Your Life - Spice Girls – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/TB54dZkzZOY/mqdefault.jpg" alt="Take That"><a href="#" onclick="loadVideo('TB54dZkzZOY', event)">Back for Good - Take That – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/6p0DAz_30qQ/mqdefault.jpg" alt="Radiohead"><a href="#" onclick="loadVideo('6p0DAz_30qQ', event)">Creep - Radiohead – 1990s</a></li>
 
         <!-- 2000s -->
-        <li data-id="yKNxeF4KMsY"><img src="https://img.youtube.com/vi/yKNxeF4KMsY/mqdefault.jpg" alt="Coldplay"><a href="#" data-title="Yellow - Coldplay – 2000s">Yellow - Coldplay – 2000s</a></li>
-        <li data-id="pK7egZaT3hs"><img src="https://img.youtube.com/vi/pK7egZaT3hs/mqdefault.jpg" alt="Arctic Monkeys"><a href="#" data-title="I Bet You Look Good on the Dancefloor - Arctic Monkeys – 2000s">I Bet You Look Good on the Dancefloor - Arctic Monkeys – 2000s</a></li>
-        <li data-id="RB-RcX5DS5A"><img src="https://img.youtube.com/vi/RB-RcX5DS5A/mqdefault.jpg" alt="Muse"><a href="#" data-title="Supermassive Black Hole - Muse – 2000s">Supermassive Black Hole - Muse – 2000s</a></li>
-        <li data-id="m0AKJMGxwpE"><img src="https://img.youtube.com/vi/m0AKJMGxwpE/mqdefault.jpg" alt="Depeche Mode"><a href="#" data-title="Enjoy the Silence - Depeche Mode – 1990s">Enjoy the Silence - Depeche Mode – 1990s</a></li>
-        <li data-id="CvBfHwUxHIk"><img src="https://img.youtube.com/vi/CvBfHwUxHIk/mqdefault.jpg" alt="Lily Allen"><a href="#" data-title="Smile - Lily Allen – 2000s">Smile - Lily Allen – 2000s</a></li>
-        <li data-id="tJUaIe2tPqE"><img src="https://img.youtube.com/vi/tJUaIe2tPqE/mqdefault.jpg" alt="Kasabian"><a href="#" data-title="Fire - Kasabian – 2000s">Fire - Kasabian – 2000s</a></li>
+        <li><img src="https://img.youtube.com/vi/yKNxeF4KMsY/mqdefault.jpg" alt="Coldplay"><a href="#" onclick="loadVideo('yKNxeF4KMsY', event)">Yellow - Coldplay – 2000s</a></li>
+        <li><img src="https://img.youtube.com/vi/pK7egZaT3hs/mqdefault.jpg" alt="Arctic Monkeys"><a href="#" onclick="loadVideo('pK7egZaT3hs', event)">I Bet You Look Good on the Dancefloor - Arctic Monkeys – 2000s</a></li>
+        <li><img src="https://img.youtube.com/vi/RB-RcX5DS5A/mqdefault.jpg" alt="Muse"><a href="#" onclick="loadVideo('RB-RcX5DS5A', event)">Supermassive Black Hole - Muse – 2000s</a></li>
+        <li><img src="https://img.youtube.com/vi/m0AKJMGxwpE/mqdefault.jpg" alt="Depeche Mode"><a href="#" onclick="loadVideo('m0AKJMGxwpE', event)">Enjoy the Silence - Depeche Mode – 1990s</a></li>
+        <li><img src="https://img.youtube.com/vi/CvBfHwUxHIk/mqdefault.jpg" alt="Lily Allen"><a href="#" onclick="loadVideo('CvBfHwUxHIk', event)">Smile - Lily Allen – 2000s</a></li>
+        <li><img src="https://img.youtube.com/vi/tJUaIe2tPqE/mqdefault.jpg" alt="Kasabian"><a href="#" onclick="loadVideo('tJUaIe2tPqE', event)">Fire - Kasabian – 2000s</a></li>
 
         <!-- 2010s -->
-        <li data-id="kWBhP0EQ1lA"><img src="https://img.youtube.com/vi/kWBhP0EQ1lA/mqdefault.jpg" alt="Ed Sheeran"><a href="#" data-title="Shape of You - Ed Sheeran – 2010s">Shape of You - Ed Sheeran – 2010s</a></li>
-        <li data-id="fKopy74weus"><img src="https://img.youtube.com/vi/fKopy74weus/mqdefault.jpg" alt="Adele"><a href="#" data-title="Rolling in the Deep - Adele – 2010s">Rolling in the Deep - Adele – 2010s</a></li>
-        <li data-id="RgKAFK5djSk"><img src="https://img.youtube.com/vi/RgKAFK5djSk/mqdefault.jpg" alt="One Direction"><a href="#" data-title="What Makes You Beautiful - One Direction – 2010s">What Makes You Beautiful - One Direction – 2010s</a></li>
-        <li data-id="nSDgHBxUbVQ"><img src="https://img.youtube.com/vi/nSDgHBxUbVQ/mqdefault.jpg" alt="Florence + The Machine"><a href="#" data-title="Dog Days Are Over - Florence + The Machine – 2010s">Dog Days Are Over - Florence + The Machine – 2010s</a></li>
-        <li data-id="gH476CxJxfg"><img src="https://img.youtube.com/vi/gH476CxJxfg/mqdefault.jpg" alt="Mumford & Sons"><a href="#" data-title="Little Lion Man - Mumford & Sons – 2010s">Little Lion Man - Mumford & Sons – 2010s</a></li>
-        <li data-id="zaGUr6wzyT8"><img src="https://img.youtube.com/vi/zaGUr6wzyT8/mqdefault.jpg" alt="Dua Lipa"><a href="#" data-title="Physical - Dua Lipa – 2010s">Physical - Dua Lipa – 2010s</a></li>
-      </template>
+        <li><img src="https://img.youtube.com/vi/kWBhP0EQ1lA/mqdefault.jpg" alt="Ed Sheeran"><a href="#" onclick="loadVideo('kWBhP0EQ1lA', event)">Shape of You - Ed Sheeran – 2010s</a></li>
+        <li><img src="https://img.youtube.com/vi/fKopy74weus/mqdefault.jpg" alt="Adele"><a href="#" onclick="loadVideo('fKopy74weus', event)">Rolling in the Deep - Adele – 2010s</a></li>
+        <li><img src="https://img.youtube.com/vi/RgKAFK5djSk/mqdefault.jpg" alt="One Direction"><a href="#" onclick="loadVideo('RgKAFK5djSk', event)">What Makes You Beautiful - One Direction – 2010s</a></li>
+        <li><img src="https://img.youtube.com/vi/nSDgHBxUbVQ/mqdefault.jpg" alt="Florence + The Machine"><a href="#" onclick="loadVideo('nSDgHBxUbVQ', event)">Dog Days Are Over - Florence + The Machine – 2010s</a></li>
+        <li><img src="https://img.youtube.com/vi/gH476CxJxfg/mqdefault.jpg" alt="Mumford & Sons"><a href="#" onclick="loadVideo('gH476CxJxfg', event)">Little Lion Man - Mumford & Sons – 2010s</a></li>
+        <li><img src="https://img.youtube.com/vi/zaGUr6wzyT8/mqdefault.jpg" alt="Dua Lipa"><a href="#" onclick="loadVideo('zaGUr6wzyT8', event)">Physical - Dua Lipa – 2010s</a></li>
+      </ul>
 
       <div id="videoModal" class="video-modal">
         <div class="video-container">
@@ -185,78 +176,6 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeVideo();
   });
-</script>
-
-<!-- oEmbed pre-check via JSONP (sin CORS) + construir lista después del filtrado -->
-<script>
-  function oembedJsonpCheck(videoId, timeoutMs = 4000) {
-    return new Promise((resolve) => {
-      const cbName = `oembed_cb_${videoId.replace(/[^a-z0-9_]/gi, '')}_${Date.now()}`;
-      const script = document.createElement('script');
-      const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json&callback=${cbName}`;
-
-      let settled = false;
-      function cleanup(ok) {
-        if (settled) return;
-        settled = true;
-        try { delete window[cbName]; } catch {}
-        if (script.parentNode) script.parentNode.removeChild(script);
-        resolve(!!ok);
-      }
-
-      window[cbName] = function(_) { cleanup(true); };
-      script.src = url;
-      script.onerror = function() { cleanup(false); };
-
-      const timer = setTimeout(() => cleanup(false), timeoutMs);
-      script.onload = function() { clearTimeout(timer); };
-
-      document.head.appendChild(script);
-    });
-  }
-
-  async function buildFilteredList() {
-    const status = document.getElementById('status');
-    const list = document.getElementById('songList');
-    const tpl = document.getElementById('songs-template');
-    const nodes = Array.from(tpl.content.querySelectorAll('li'));
-
-    status.textContent = 'Comprobando vídeos…';
-    list.classList.add('hidden');
-
-    const kept = [];
-    let checked = 0;
-
-    for (const li of nodes) {
-      const id = li.dataset.id;
-      // Pequeño spacing para no saturar
-      /* eslint-disable no-await-in-loop */
-      await new Promise(r => setTimeout(r, 120));
-      const ok = await oembedJsonpCheck(id);
-      checked++;
-      status.textContent = `Comprobando vídeos… ${checked}/${nodes.length}`;
-      if (ok) kept.push(li.cloneNode(true));
-    }
-
-    // Vaciar lista y reinyectar solo embebibles
-    list.innerHTML = '';
-    for (const li of kept) {
-      const a = li.querySelector('a');
-      const img = li.querySelector('img');
-      const id = li.dataset.id;
-      // Enlazar evento clic
-      a.addEventListener('click', (e) => loadVideo(id, e));
-      // Accesibilidad / title
-      a.setAttribute('title', a.dataset.title || a.textContent.trim());
-      if (img && !img.loading) img.loading = 'lazy';
-      list.appendChild(li);
-    }
-
-    status.textContent = `Mostrando ${kept.length} de ${nodes.length} canciones embebibles`;
-    list.classList.remove('hidden');
-  }
-
-  document.addEventListener('DOMContentLoaded', buildFilteredList);
 </script>
 
 <section aria-label="Subscribe example">
