@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build & Deploy (filter YouTube embeddables)
 
 on:
   push:
@@ -15,10 +15,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Filter non-embeddable videos
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node tools/filter-embeddables.js
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-
