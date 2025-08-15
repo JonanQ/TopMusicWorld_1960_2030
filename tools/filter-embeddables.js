@@ -1,61 +1,72 @@
-const fs = require('fs');
-const cheerio = require('cheerio');
-const axios = require('axios');
+const fs = require("fs");
+const path = require("path");
 
-const htmlPath = 'index.html';
 const apiKey = process.env.YT_API_KEY;
-
 if (!apiKey) {
-  console.error('ERROR: No API key provided. Set YT_API_KEY in GitHub Secrets.');
-  process.exit(1);
+    console.error("ERROR: No API key found. Set YT_API_KEY in GitHub Secrets.");
+    process.exit(1);
+}
+
+const htmlPath = path.join(__dirname, "..", "index.html");
+let html = fs.readFileSync(htmlPath, "utf8");
+
+// Extraer IDs de YouTube del HTML
+const videoIdRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/g;
+let ids = [];
+let match;
+while ((match = videoIdRegex.exec(html)) !== null) {
+    ids.push(match[1]);
+}
+ids = [...new Set(ids)];
+console.log(`[filter] Found ${ids.length} video IDs.`);
+
+async function checkVideo(id) {
+    try {
+        const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=status,contentDetails&id=${id}&key=${apiKey}`;
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (!data.items.length) return false;
+
+        const status = data.items[0].status;
+        const content = data.items[0].contentDetails;
+
+        // API checks
+        if (!status.embeddable) return false;
+        if (status.privacyStatus !== "public") return false;
+        if (status.uploadStatus !== "processed") return false;
+        if (content.regionRestriction) return false;
+
+        // Extra check con oEmbed
+        const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
+        const oembedRes = await fetch(oembedUrl);
+        if (!oembedRes.ok) return false;
+
+        return true;
+    } catch (e) {
+        console.error(`[filter] Error checking ${id}:`, e);
+        return false;
+    }
 }
 
 (async () => {
-  try {
-    let html = fs.readFileSync(htmlPath, 'utf8');
-    const $ = cheerio.load(html);
-
-    const ids = [];
-    $('#songList li a').each((_, el) => {
-      const onclick = $(el).attr('onclick') || '';
-      const match = onclick.match(/loadVideo\('([^']+)'/);
-      if (match) ids.push(match[1]);
-    });
-
-    console.log(`Encontrados ${ids.length} IDs de vídeo.`);
-
-    const chunkSize = 50;
-    const invalidIds = [];
-
-    for (let i = 0; i < ids.length; i += chunkSize) {
-      const chunk = ids.slice(i, i + chunkSize);
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${chunk.join(',')}&key=${apiKey}`;
-
-      const { data } = await axios.get(url);
-      for (const item of data.items) {
-        const st = item.status;
-        if (!(st.embeddable && st.privacyStatus === 'public' && st.uploadStatus === 'processed')) {
-          invalidIds.push(item.id);
-        }
-      }
+    const results = {};
+    for (let i = 0; i < ids.length; i++) {
+        const ok = await checkVideo(ids[i]);
+        results[ids[i]] = ok;
+        console.log(`[filter] ${ids[i]}: ${ok ? "OK" : "REMOVE"}`);
     }
 
-    console.log(`Videos inválidos: ${invalidIds.length}`);
-    if (invalidIds.length) console.log('Eliminados:', invalidIds.join(', '));
-
-    $('#songList li').each((_, el) => {
-      const link = $(el).find('a');
-      const onclick = link.attr('onclick') || '';
-      const match = onclick.match(/loadVideo\('([^']+)'/);
-      if (match && invalidIds.includes(match[1])) {
-        $(el).remove();
-      }
+    let removedCount = 0;
+    html = html.replace(/<li\b[^>]*>[\s\S]*?<\/li>/g, (li) => {
+        const m = li.match(videoIdRegex);
+        if (m && m[1] && results[m[1]] === false) {
+            removedCount++;
+            return "";
+        }
+        return li;
     });
 
-    fs.writeFileSync(htmlPath, $.html(), 'utf8');
-    console.log('index.html filtrado y listo para publicar.');
-  } catch (err) {
-    console.error('Error filtrando vídeos:', err);
-    process.exit(1);
-  }
+    fs.writeFileSync(htmlPath, html, "utf8");
+    console.log(`[filter] Removed ${removedCount} non-embeddable videos.`);
 })();
