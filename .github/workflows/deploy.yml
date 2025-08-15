@@ -17,6 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Show env (debug)
+        run: |
+          node -v
+          npm -v
+          ls -la
+          echo "Root files:"
+          find . -maxdepth 2 -type f | sort | sed 's|^\./||'
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,7 +35,7 @@ jobs:
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
 
-      - name: Setup Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
