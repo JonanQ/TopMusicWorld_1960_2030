@@ -1,61 +1,43 @@
-const fs = require('fs');
-const cheerio = require('cheerio');
-const axios = require('axios');
+name: Deploy filtered site to GitHub Pages
 
-const htmlPath = 'index.html';
-const apiKey = process.env.YT_API_KEY;
+on:
+  push:
+    branches:
+      - main
 
-if (!apiKey) {
-  console.error('ERROR: No API key provided. Set YT_API_KEY in GitHub Secrets.');
-  process.exit(1);
-}
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-(async () => {
-  try {
-    let html = fs.readFileSync(htmlPath, 'utf8');
-    const $ = cheerio.load(html);
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    const ids = [];
-    $('#songList li a').each((_, el) => {
-      const onclick = $(el).attr('onclick') || '';
-      const match = onclick.match(/loadVideo\('([^']+)'/);
-      if (match) ids.push(match[1]);
-    });
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    console.log(`Encontrados ${ids.length} IDs de vídeo.`);
+      - name: Install dependencies
+        run: npm install cheerio axios
 
-    const chunkSize = 50;
-    const invalidIds = [];
+      - name: Filter embeddable YouTube videos
+        run: node tools/filter-embeddables.js
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
 
-    for (let i = 0; i < ids.length; i += chunkSize) {
-      const chunk = ids.slice(i, i + chunkSize);
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${chunk.join(',')}&key=${apiKey}`;
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-      const { data } = await axios.get(url);
-      for (const item of data.items) {
-        const st = item.status;
-        if (!(st.embeddable && st.privacyStatus === 'public' && st.uploadStatus === 'processed')) {
-          invalidIds.push(item.id);
-        }
-      }
-    }
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./
 
-    console.log(`Videos inválidos: ${invalidIds.length}`);
-    if (invalidIds.length) console.log('Eliminados:', invalidIds.join(', '));
-
-    $('#songList li').each((_, el) => {
-      const link = $(el).find('a');
-      const onclick = link.attr('onclick') || '';
-      const match = onclick.match(/loadVideo\('([^']+)'/);
-      if (match && invalidIds.includes(match[1])) {
-        $(el).remove();
-      }
-    });
-
-    fs.writeFileSync(htmlPath, $.html(), 'utf8');
-    console.log('index.html filtrado y listo para publicar.');
-  } catch (err) {
-    console.error('Error filtrando vídeos:', err);
-    process.exit(1);
-  }
-})();
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
