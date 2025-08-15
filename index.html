@@ -1,267 +1,30 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Top 30 Reino Unido (Carátulas Discogs) — GitHub Pages + oEmbed check</title>
-
-  <!-- Performance hints -->
-  <link rel="preconnect" href="https://www.youtube-nocookie.com">
-  <link rel="preconnect" href="https://www.youtube.com">
-  <link rel="preconnect" href="https://i.ytimg.com">
-  <link rel="preconnect" href="https://www.google.com">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-  <style>
-    body { font-family: 'Times New Roman', serif; }
-    .video-modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.8); display: none;
-      justify-content: center; align-items: center; z-index: 1000;
-    }
-    .video-modal.show { display: flex; }
-    .video-container {
-      position: relative; width: 80%; max-width: 800px; background: #fff;
-      border-radius: 8px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-    .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666; }
-    .close-btn:hover { color: #000; }
-    #videoPlayer { width: 100%; height: 450px; border-radius: 4px; }
-    .banner-img { width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 0.5rem; }
-    ul#songList li { list-style: none; display: flex; align-items: center; margin-bottom: 0.75rem; }
-    ul#songList img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; margin-right: 0.75rem; }
-    ul#songList a { text-decoration: none; color: var(--primary); }
-  </style>
-
-  <!-- IFrame Player API -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-</head>
-<body>
-
-<nav class="container-fluid">
-  <ul>
-    <li><strong>Top 30 UK (YouTube + Carátulas) — GitHub Pages</strong></li>
-  </ul>
-</nav>
-
-<main class="container">
-  <div class="grid">
-    <section>
-      <hgroup>
-        <h2>Reino Unido</h2>
-        <h3>Top 30 canciones por década</h3>
-      </hgroup>
-      <p>Haz clic en una canción para reproducir su video. Si el vídeo no permite “embed”, se abrirá en YouTube automáticamente. Los no embebibles se marcan con “↗ abrirá en YouTube”.</p>
-
-      <figure>
-        <img class="banner-img" src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Londres, Reino Unido - Big Ben y paisaje urbano" loading="lazy" decoding="async" />
-        <figcaption><a href="https://unsplash.com/photos/2d4lAQAlbDA" target="_blank" rel="noopener">Imagen desde Unsplash</a></figcaption>
-      </figure>
-
-      <ul id="songList">
-        <!-- 1970s -->
-        <li><img src="https://img.youtube.com/vi/fJ9rUzIMcZQ/mqdefault.jpg" alt="Queen" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('fJ9rUzIMcZQ', event)">Bohemian Rhapsody - Queen – 1970s</a></li>
-        <li><img src="https://img.youtube.com/vi/YkgkThdzX-8/mqdefault.jpg" alt="John Lennon" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('YkgkThdzX-8', event)">Imagine - John Lennon – 1970s</a></li>
-        <li><img src="https://img.youtube.com/vi/tPzHs4-_MdM/mqdefault.jpg" alt="Led Zeppelin" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('tPzHs4-_MdM', event)">Whole Lotta Love - Led Zeppelin – 1970s</a></li>
-        <li><img src="https://img.youtube.com/vi/d5iIZ_ikSUw/mqdefault.jpg" alt="Pink Floyd" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('d5iIZ_ikSUw', event)">Another Brick in the Wall - Pink Floyd – 1970s</a></li>
-        <li><img src="https://img.youtube.com/vi/OMOGaugKpzs/mqdefault.jpg" alt="The Beatles" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('OMOGaugKpzs', event)">Come Together - The Beatles – 1970s</a></li>
-        <li><img src="https://img.youtube.com/vi/RFGo5cqcxP4/mqdefault.jpg" alt="Elton John" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('RFGo5cqcxP4', event)">Rocket Man - Elton John – 1970s</a></li>
-
-        <!-- 1980s -->
-        <li><img src="https://img.youtube.com/vi/ftjEcrrf7r0/mqdefault.jpg" alt="U2" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('ftjEcrrf7r0', event)">With or Without You - U2 – 1980s</a></li>
-        <li><img src="https://img.youtube.com/vi/Zi_XLOBDo_Y/mqdefault.jpg" alt="Michael Jackson" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('Zi_XLOBDo_Y', event)">Billie Jean - Michael Jackson – 1980s</a></li>
-        <li><img src="https://img.youtube.com/vi/djV11Xbc914/mqdefault.jpg" alt="a-ha" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('djV11Xbc914', event)">Take On Me - a-ha – 1980s</a></li>
-        <li><img src="https://img.youtube.com/vi/nM_txL43iFc/mqdefault.jpg" alt="Duran Duran" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('nM_txL43iFc', event)">Hungry Like the Wolf - Duran Duran – 1980s</a></li>
-        <li><img src="https://img.youtube.com/vi/9jK-NcRmVcw/mqdefault.jpg" alt="Europe" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('9jK-NcRmVcw', event)">The Final Countdown - Europe – 1980s</a></li>
-        <li><img src="https://img.youtube.com/vi/rY0WxgSXdEE/mqdefault.jpg" alt="The Police" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('rY0WxgSXdEE', event)">Every Breath You Take - The Police – 1980s</a></li>
-
-        <!-- 1990s -->
-        <li><img src="https://img.youtube.com/vi/luwAMFcc2f8/mqdefault.jpg" alt="Robbie Williams" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('luwAMFcc2f8', event)">Angels - Robbie Williams – 1990s</a></li>
-        <li><img src="https://img.youtube.com/vi/bx1Bh8ZvH84/mqdefault.jpg" alt="Oasis" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('bx1Bh8ZvH84', event)">Wonderwall - Oasis – 1990s</a></li>
-        <li><img src="https://img.youtube.com/vi/SSbBvKaM6sk/mqdefault.jpg" alt="Blur" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('SSbBvKaM6sk', event)">Song 2 - Blur – 1990s</a></li>
-        <li><img src="https://img.youtube.com/vi/CSvFpBOe8eY/mqdefault.jpg" alt="Spice Girls" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('CSvFpBOe8eY', event)">Spice Up Your Life - Spice Girls – 1990s</a></li>
-        <li><img src="https://img.youtube.com/vi/TB54dZkzZOY/mqdefault.jpg" alt="Take That" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('TB54dZkzZOY', event)">Back for Good - Take That – 1990s</a></li>
-        <li><img src="https://img.youtube.com/vi/6p0DAz_30qQ/mqdefault.jpg" alt="Radiohead" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('6p0DAz_30qQ', event)">Creep - Radiohead – 1990s</a></li>
-
-        <!-- 2000s -->
-        <li><img src="https://img.youtube.com/vi/yKNxeF4KMsY/mqdefault.jpg" alt="Coldplay" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('yKNxeF4KMsY', event)">Yellow - Coldplay – 2000s</a></li>
-        <li><img src="https://img.youtube.com/vi/pK7egZaT3hs/mqdefault.jpg" alt="Arctic Monkeys" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('pK7egZaT3hs', event)">I Bet You Look Good on the Dancefloor - Arctic Monkeys – 2000s</a></li>
-        <li><img src="https://img.youtube.com/vi/RB-RcX5DS5A/mqdefault.jpg" alt="Muse" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('RB-RcX5DS5A', event)">Supermassive Black Hole - Muse – 2000s</a></li>
-        <li><img src="https://img.youtube.com/vi/m0AKJMGxwpE/mqdefault.jpg" alt="Depeche Mode" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('m0AKJMGxwpE', event)">Enjoy the Silence - Depeche Mode – 1990s</a></li>
-        <li><img src="https://img.youtube.com/vi/CvBfHwUxHIk/mqdefault.jpg" alt="Lily Allen" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('CvBfHwUxHIk', event)">Smile - Lily Allen – 2000s</a></li>
-        <li><img src="https://img.youtube.com/vi/tJUaIe2tPqE/mqdefault.jpg" alt="Kasabian" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('tJUaIe2tPqE', event)">Fire - Kasabian – 2000s</a></li>
-
-        <!-- 2010s -->
-        <li><img src="https://img.youtube.com/vi/kWBhP0EQ1lA/mqdefault.jpg" alt="Ed Sheeran" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('kWBhP0EQ1lA', event)">Shape of You - Ed Sheeran – 2010s</a></li>
-        <li><img src="https://img.youtube.com/vi/fKopy74weus/mqdefault.jpg" alt="Adele" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('fKopy74weus', event)">Rolling in the Deep - Adele – 2010s</a></li>
-        <li><img src="https://img.youtube.com/vi/RgKAFK5djSk/mqdefault.jpg" alt="One Direction" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('RgKAFK5djSk', event)">What Makes You Beautiful - One Direction – 2010s</a></li>
-        <li><img src="https://img.youtube.com/vi/nSDgHBxUbVQ/mqdefault.jpg" alt="Florence + The Machine" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('nSDgHBxUbVQ', event)">Dog Days Are Over - Florence + The Machine – 2010s</a></li>
-        <li><img src="https://img.youtube.com/vi/gH476CxJxfg/mqdefault.jpg" alt="Mumford & Sons" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('gH476CxJxfg', event)">Little Lion Man - Mumford & Sons – 2010s</a></li>
-        <li><img src="https://img.youtube.com/vi/zaGUr6wzyT8/mqdefault.jpg" alt="Dua Lipa" loading="lazy" decoding="async"><a href="#" onclick="loadVideo('zaGUr6wzyT8', event)">Physical - Dua Lipa – 2010s</a></li>
-      </ul>
-
-      <div id="videoModal" class="video-modal">
-        <div class="video-container">
-          <button class="close-btn" onclick="closeVideo()">&times;</button>
-          <div style="display:flex; align-items:center; margin-bottom:15px;">
-            <img id="songCover" src="" alt="Carátula" style="width:60px; height:60px; object-fit:cover; border-radius:6px; margin-right:15px;">
-            <h3 id="songTitle" style="margin:0;">Reproductor de Video</h3>
-          </div>
-          <p style="font-size:14px; color:#666; margin-bottom:10px;">
-            💡 Autoplay empieza en silencio por políticas del navegador. Si el vídeo no permite “embed”, se abrirá en YouTube en otra pestaña.
-          </p>
-          <!-- Contenedor para la API de YouTube -->
-          <div id="videoPlayer"></div>
-        </div>
-      </div>
-    </section>
-  </div>
-</main>
-
 <script>
-  let ytPlayer = null;
-
-  function buildPlayer(videoId) {
-    const opts = {
-      height: '450',
-      width: '100%',
-      videoId: videoId,
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        rel: 0,
-        modestbranding: 1,
-        enablejsapi: 1,
-        origin: location.origin
-      },
-      events: {
-        onError: (e) => {
-          if (e?.data === 101 || e?.data === 150) {
-            alert("Este vídeo no permite incrustación. Abro YouTube en otra pestaña.");
-            window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank', 'noopener');
-          }
-        }
-      }
-    };
-    if (ytPlayer && ytPlayer.loadVideoById) {
-      ytPlayer.loadVideoById(videoId);
-    } else {
-      ytPlayer = new YT.Player('videoPlayer', opts);
-    }
-  }
-
-  function loadVideo(videoId, event) {
-    event.preventDefault();
-    const modal = document.getElementById('videoModal');
-    const songTitle = document.getElementById('songTitle');
-    const songCover = document.getElementById('songCover');
-    const clickedLink = event.target;
-
-    songTitle.textContent = clickedLink.textContent;
-    const coverImg = clickedLink.closest('li').querySelector('img');
-    if (coverImg) {
-      songCover.src = coverImg.src;
-      songCover.alt = coverImg.alt;
-    }
-
-    modal.classList.add('show');
-
-    if (window.YT && window.YT.Player) {
-      buildPlayer(videoId);
-    } else {
-      window.onYouTubeIframeAPIReady = () => buildPlayer(videoId);
-    }
-  }
-
-  function closeVideo() {
-    const modal = document.getElementById('videoModal');
-    modal.classList.remove('show');
-    if (ytPlayer && ytPlayer.stopVideo) {
-      ytPlayer.stopVideo();
-    }
-  }
-
-  document.getElementById('videoModal').addEventListener('click', function(e) {
-    if (e.target === this) closeVideo();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeVideo();
-  });
-</script>
-
-<!-- oEmbed pre-check (sin API key) -->
-<script>
-  const embeddableMap = new Map();
-
-  function getVideoIdFromLink(a) {
-    const m = a.getAttribute('onclick')?.match(/loadVideo\('([^']+)'/);
-    return m ? m[1] : null;
-  }
-
-  async function isEmbeddable(id) {
-    const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
-    try {
-      const res = await fetch(url, { method: 'GET' });
-      return res.ok;
-    } catch {
-      return false;
-    }
-  }
-
-  async function checkAllEmbeds() {
+  async function checkAllEmbedsAndRemove() {
     const anchors = Array.from(document.querySelectorAll('#songList a'));
     for (const a of anchors) {
-      const id = getVideoIdFromLink(a);
-      if (!id || embeddableMap.has(id)) continue;
+      const m = a.getAttribute('onclick')?.match(/loadVideo\('([^']+)'/);
+      if (!m) continue;
+      const id = m[1];
+
+      // Pequeño retraso para no saturar a YouTube
       await new Promise(r => setTimeout(r, 150));
-      const ok = await isEmbeddable(id);
-      embeddableMap.set(id, ok);
+
+      const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
+      let ok = false;
+      try {
+        const res = await fetch(url, { method: 'GET' });
+        ok = res.ok;
+      } catch {
+        ok = false;
+      }
+
+      // Si no es embebible, eliminamos el <li>
       if (!ok) {
-        const badge = document.createElement('span');
-        badge.textContent = '↗ abrirá en YouTube';
-        badge.style.fontSize = '0.8rem';
-        badge.style.marginLeft = '0.5rem';
-        badge.style.opacity = '0.8';
-        a.after(badge);
-        a.title = 'Este vídeo no se puede incrustar; se abrirá en YouTube.';
+        const li = a.closest('li');
+        if (li) li.remove();
       }
     }
   }
 
-  (function(){
-    const originalLoad = window.loadVideo;
-    window.loadVideo = function(videoId, event) {
-      if (embeddableMap.has(videoId) && embeddableMap.get(videoId) === false) {
-        event?.preventDefault?.();
-        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank', 'noopener');
-        return;
-      }
-      return originalLoad(videoId, event);
-    };
-  })();
-
-  document.addEventListener('DOMContentLoaded', checkAllEmbeds);
+  document.addEventListener('DOMContentLoaded', checkAllEmbedsAndRemove);
 </script>
-
-<section aria-label="Subscribe example">
-  <div class="container">
-    <article>
-      <hgroup>
-        <h2>Suscríbete para actualizaciones</h2>
-        <h3>Recibe nuevas listas y lanzamientos por correo</h3>
-      </hgroup>
-      <form class="grid">
-        <input type="text" id="firstname" name="firstname" placeholder="Tu nombre" aria-label="Nombre" required />
-        <input type="email" id="email" name="email" placeholder="Tu correo electrónico" aria-label="Correo electrónico" required />
-        <button type="submit" onclick="event.preventDefault()">Suscribirme</button>
-      </form>
-    </article>
-  </div>
-</section>
-
-<footer class="container">
-  <small><a href="#">Privacidad</a> • <a href="#">Términos</a></small>
-</footer>
-
-</body>
-</html>
