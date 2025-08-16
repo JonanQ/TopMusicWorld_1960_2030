@@ -1,4 +1,4 @@
-const ukSongs = [
+window.ukSongs = [
   // 1960s
   {
     title: "Yesterday",
