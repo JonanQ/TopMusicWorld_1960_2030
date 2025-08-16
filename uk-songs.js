@@ -1,4 +1,6 @@
-window.ukSongs = [
+const songs = (typeof ukSongs !== 'undefined' && Array.isArray(ukSongs) && ukSongs.length)
+  ? ukSongs
+  : (Array.isArray(window.ukSongs) && window.ukSongs.length ? window.ukSongs : fallback);
   // 1960s
   {
     title: "Yesterday",
