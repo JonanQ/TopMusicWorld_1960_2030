@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Top 30 Canciones – 1980s a 2020s</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
     <h1>Top 30 Canciones (1980s – 2020s)</h1>
-    <ul id="songList">
-      <!-- Aquí va la lista de canciones -->
-    </ul>
+
+    <!-- Controles -->
+    <section class="controls">
+      <label for="genreFilter">Filtrar por género:</label>
+      <select id="genreFilter">
+        <option value="__all__">Todos</option>
+      </select>
+    </section>
+
+    <ul id="songList"></ul>
   </main>
 
   <!-- Modal -->
   <div id="videoModal" class="video-modal">
     <div class="video-container">
-      <iframe id="videoPlayer" frameborder="0" allow="autoplay; fullscreen"></iframe>
+      <button class="close-btn" id="closeBtn" aria-label="Cerrar">×</button>
+      <div class="video-header">
+        <img id="songCover" alt="Carátula" />
+        <div>
+          <h3 id="songTitle"></h3>
+          <span id="songGenre" class="genre-pill"></span>
+        </div>
+      </div>
+      <iframe
+        id="videoPlayer"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen
+      ></iframe>
     </div>
   </div>
 
