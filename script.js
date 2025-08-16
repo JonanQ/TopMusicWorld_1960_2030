@@ -54,7 +54,7 @@ songs.forEach(song => {
 function loadVideo(videoId, event) {
   event.preventDefault();
   const player = document.getElementById("videoPlayer");
-  player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&mute=1";
+  player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
   document.getElementById("videoModal").classList.add("show");
 }
 
