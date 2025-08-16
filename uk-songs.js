@@ -1,6 +1,6 @@
-const songs = (typeof ukSongs !== 'undefined' && Array.isArray(ukSongs) && ukSongs.length)
-  ? ukSongs
-  : (Array.isArray(window.ukSongs) && window.ukSongs.length ? window.ukSongs : fallback);
+// TopMusicWorld_1960_2030/uk-songs.js
+window.ukSongs = [
+  // ...tus canciones...
   // 1960s
   {
     title: "Yesterday",
