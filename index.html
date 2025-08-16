@@ -1,150 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Top 30 Reino Unido — Superventas/Streaming (80s–2020s)</title>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-  <style>
-    body { font-family: 'Times New Roman', serif; }
-    .banner-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: .5rem; }
-    ul#songList li { list-style: none; display: flex; align-items: center; margin-bottom: .75rem; }
-    ul#songList img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; margin-right: .75rem; }
-    ul#songList a { text-decoration: none; color: var(--primary); }
-    /* Modal */
-    .video-modal { position: fixed; inset: 0; display: none; place-items: center; background: rgba(0,0,0,.8); z-index: 1000; }
-    .video-modal.show { display: grid; }
-    .video-container { width: 90%; max-width: 840px; background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 6px 30px rgba(0,0,0,.5); }
-    .close-btn { position: absolute; top: 10px; right: 14px; background: none; border: 0; font-size: 26px; cursor: pointer; color: #666; }
-    .close-btn:hover { color:#000; }
-    #videoPlayer { width: 100%; height: 450px; border: 0; border-radius: 6px; }
-  </style>
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Top 30 Canciones – 1980s a 2020s</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<nav class="container-fluid">
-  <ul><li><strong>Top 30 UK (YouTube + Carátulas) — 80s–2020s</strong></li></ul>
-</nav>
-
-<main class="container">
-  <section>
-    <hgroup>
-      <h2>Reino Unido</h2>
-      <h3>30 canciones más escuchadas / superventas por década (80s–2020s)</h3>
-    </hgroup>
-    <p>Haz clic en una canción para reproducir su video en el reproductor inferior.</p>
-
-    <figure>
-      <img class="banner-img" src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1600&q=80" alt="Londres, Reino Unido" />
-      <figcaption>Foto: Unsplash</figcaption>
-    </figure>
-
+  <main class="container">
+    <h1>Top 30 Canciones (1980s – 2020s)</h1>
     <ul id="songList">
-  <!-- 1980s -->
-  <li><img src="https://img.youtube.com/vi/Zi_XLOBDo_Y/mqdefault.jpg" alt="Michael Jackson"><a href="#" onclick="loadVideo('Zi_XLOBDo_Y', event)">Billie Jean - Michael Jackson – 1980s</a></li>
-  <li><img src="https://img.youtube.com/vi/djV11Xbc914/mqdefault.jpg" alt="a-ha"><a href="#" onclick="loadVideo('djV11Xbc914', event)">Take On Me - a-ha – 1980s</a></li>
-  <li><img src="https://img.youtube.com/vi/OMOGaugKpzs/mqdefault.jpg" alt="The Police"><a href="#" onclick="loadVideo('OMOGaugKpzs', event)">Every Breath You Take - The Police – 1980s</a></li>
-  <li><img src="https://img.youtube.com/vi/1w7OgIMMRc4/mqdefault.jpg" alt="Guns N' Roses"><a href="#" onclick="loadVideo('1w7OgIMMRc4', event)">Sweet Child O' Mine - Guns N' Roses – 1980s</a></li>
-  <li><img src="https://img.youtube.com/vi/lDK9QqIzhwk/mqdefault.jpg" alt="Bon Jovi"><a href="#" onclick="loadVideo('lDK9QqIzhwk', event)">Livin' on a Prayer - Bon Jovi – 1980s</a></li>
-  <li><img src="https://img.youtube.com/vi/FTQbiNvZqaY/mqdefault.jpg" alt="Toto"><a href="#" onclick="loadVideo('FTQbiNvZqaY', event)">Africa - Toto – 1980s</a></li>
+      <!-- Aquí va la lista de canciones -->
+    </ul>
+  </main>
 
-  <!-- 1990s -->
-  <li><img src="https://img.youtube.com/vi/bx1Bh8ZvH84/mqdefault.jpg" alt="Oasis"><a href="#" onclick="loadVideo('bx1Bh8ZvH84', event)">Wonderwall - Oasis – 1990s</a></li>
-  <li><img src="https://img.youtube.com/vi/XFkzRNyygfk/mqdefault.jpg" alt="Radiohead"><a href="#" onclick="loadVideo('XFkzRNyygfk', event)">Creep - Radiohead – 1990s</a></li>
-  <li><img src="https://img.youtube.com/vi/SSbBvKaM6sk/mqdefault.jpg" alt="Blur"><a href="#" onclick="loadVideo('SSbBvKaM6sk', event)">Song 2 - Blur – 1990s</a></li>
-  <li><img src="https://img.youtube.com/vi/luwAMFcc2f8/mqdefault.jpg" alt="Robbie Williams"><a href="#" onclick="loadVideo('luwAMFcc2f8', event)">Angels - Robbie Williams – 1990s</a></li>
-  <li><img src="https://img.youtube.com/vi/gJLIiF15wjQ/mqdefault.jpg" alt="Spice Girls"><a href="#" onclick="loadVideo('gJLIiF15wjQ', event)">Wannabe - Spice Girls – 1990s</a></li>
-  <li><img src="https://img.youtube.com/vi/1lyu1KKwC74/mqdefault.jpg" alt="The Verve"><a href="#" onclick="loadVideo('1lyu1KKwC74', event)">Bitter Sweet Symphony - The Verve – 1990s</a></li>
-
-  <!-- 2000s -->
-  <li><img src="https://img.youtube.com/vi/gGdGFtwCNBE/mqdefault.jpg" alt="The Killers"><a href="#" onclick="loadVideo('gGdGFtwCNBE', event)">Mr. Brightside - The Killers – 2000s</a></li>
-  <li><img src="https://img.youtube.com/vi/yKNxeF4KMsY/mqdefault.jpg" alt="Coldplay"><a href="#" onclick="loadVideo('yKNxeF4KMsY', event)">Yellow - Coldplay – 2000s</a></li>
-  <li><img src="https://img.youtube.com/vi/0J2QdDbelmY/mqdefault.jpg" alt="The White Stripes"><a href="#" onclick="loadVideo('0J2QdDbelmY', event)">Seven Nation Army - The White Stripes – 2000s</a></li>
-  <li><img src="https://img.youtube.com/vi/PWgvGjAhvIw/mqdefault.jpg" alt="OutKast"><a href="#" onclick="loadVideo('PWgvGjAhvIw', event)">Hey Ya! - OutKast – 2000s</a></li>
-  <li><img src="https://img.youtube.com/vi/DUT5rEU6pqM/mqdefault.jpg" alt="Shakira"><a href="#" onclick="loadVideo('DUT5rEU6pqM', event)">Hips Don't Lie - Shakira ft. Wyclef Jean – 2000s</a></li>
-  <li><img src="https://img.youtube.com/vi/ViwtNLUqkMY/mqdefault.jpg" alt="Beyoncé"><a href="#" onclick="loadVideo('ViwtNLUqkMY', event)">Crazy In Love - Beyoncé ft. Jay-Z – 2000s</a></li>
-
-  <!-- 2010s -->
-  <li><img src="https://img.youtube.com/vi/JGwWNGJdvx8/mqdefault.jpg" alt="Ed Sheeran"><a href="#" onclick="loadVideo('JGwWNGJdvx8', event)">Shape of You - Ed Sheeran – 2010s</a></li>
-  <li><img src="https://img.youtube.com/vi/OPf0YbXqDm0/mqdefault.jpg" alt="Mark Ronson"><a href="#" onclick="loadVideo('OPf0YbXqDm0', event)">Uptown Funk - Mark Ronson ft. Bruno Mars – 2010s</a></li>
-  <li><img src="https://img.youtube.com/vi/ZbZSe6N_BXs/mqdefault.jpg" alt="Pharrell Williams"><a href="#" onclick="loadVideo('ZbZSe6N_BXs', event)">Happy - Pharrell Williams – 2010s</a></li>
-  <li><img src="https://img.youtube.com/vi/rYEDA3JcQqw/mqdefault.jpg" alt="Adele"><a href="#" onclick="loadVideo('rYEDA3JcQqw', event)">Rolling in the Deep - Adele – 2010s</a></li>
-  <li><img src="https://img.youtube.com/vi/zABLecsR5UE/mqdefault.jpg" alt="Lewis Capaldi"><a href="#" onclick="loadVideo('zABLecsR5UE', event)">Someone You Loved - Lewis Capaldi – 2010s</a></li>
-  <li><img src="https://img.youtube.com/vi/4NRXx6U8ABQ/mqdefault.jpg" alt="The Weeknd"><a href="#" onclick="loadVideo('4NRXx6U8ABQ', event)">Blinding Lights - The Weeknd – 2010s</a></li>
-
-  <!-- 2020s -->
-  <li><img src="https://img.youtube.com/vi/H5v3kku4y6Q/mqdefault.jpg" alt="Harry Styles"><a href="#" onclick="loadVideo('H5v3kku4y6Q', event)">As It Was - Harry Styles – 2020s</a></li>
-  <li><img src="https://img.youtube.com/vi/orJSJGHjBLI/mqdefault.jpg" alt="Ed Sheeran"><a href="#" onclick="loadVideo('orJSJGHjBLI', event)">Bad Habits - Ed Sheeran – 2020s</a></li>
-  <li><img src="https://img.youtube.com/vi/TUVcZfQe-Kw/mqdefault.jpg" alt="Dua Lipa"><a href="#" onclick="loadVideo('TUVcZfQe-Kw', event)">Levitating - Dua Lipa – 2020s</a></li>
-  <li><img src="https://img.youtube.com/vi/ZmDBbnmKpqQ/mqdefault.jpg" alt="Olivia Rodrigo"><a href="#" onclick="loadVideo('ZmDBbnmKpqQ', event)">drivers license - Olivia Rodrigo – 2020s</a></li>
-  <li><img src="https://img.youtube.com/vi/G7KNmW9a75Y/mqdefault.jpg" alt="Miley Cyrus"><a href="#" onclick="loadVideo('G7KNmW9a75Y', event)">Flowers - Miley Cyrus – 2020s</a></li>
-  <li><img src="https://img.youtube.com/vi/LIIDh-qI9oI/mqdefault.jpg" alt="The Weeknd & Ariana Grande"><a href="#" onclick="loadVideo('LIIDh-qI9oI', event)">Save Your Tears (Remix) - The Weeknd & Ariana Grande – 2020s</a></li>
-</ul>
-
-
-
-    <!-- Modal / Player -->
-    <div id="videoModal" class="video-modal">
-      <div class="video-container" style="position:relative">
-        <button class="close-btn" onclick="closeVideo()">&times;</button>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <img id="songCover" src="" alt="Carátula" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
-          <h3 id="songTitle" style="margin:0;">Reproductor de Video</h3>
-        </div>
-        <p style="font-size:14px;color:#666;margin:.25rem 0 1rem">
-          💡 Autoplay empieza en silencio por políticas del navegador.
-        </p>
-        <div id="videoPlayer"></div>
-      </div>
+  <!-- Modal -->
+  <div id="videoModal" class="video-modal">
+    <div class="video-container">
+      <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
     </div>
+  </div>
 
-  </section>
-</main>
-
-<footer class="container">
-  <small><a href="#">Privacidad</a> • <a href="#">Términos</a></small>
-</footer>
-
-<script>
-  let ytPlayer = null;
-
-  function buildPlayer(videoId) {
-    const opts = {
-      height: '450',
-      width: '100%',
-      videoId,
-      playerVars: { autoplay: 1, mute: 1, rel: 0, modestbranding: 1, enablejsapi: 1, origin: location.origin }
-    };
-    if (ytPlayer && ytPlayer.loadVideoById) ytPlayer.loadVideoById(videoId);
-    else ytPlayer = new YT.Player('videoPlayer', opts);
-  }
-
-  function loadVideo(videoId, event) {
-    event.preventDefault();
-    const modal = document.getElementById('videoModal');
-    const songTitle = document.getElementById('songTitle');
-    const songCover = document.getElementById('songCover');
-    const clicked = event.target;
-    songTitle.textContent = clicked.textContent;
-    const coverImg = clicked.closest('li').querySelector('img');
-    if (coverImg) { songCover.src = coverImg.src; songCover.alt = coverImg.alt; }
-    modal.classList.add('show');
-    if (window.YT && window.YT.Player) buildPlayer(videoId);
-    else window.onYouTubeIframeAPIReady = () => buildPlayer(videoId);
-  }
-
-  function closeVideo() {
-    const modal = document.getElementById('videoModal');
-    modal.classList.remove('show');
-    if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
-  }
-
-  // Cerrar modal si clic fuera o tecla ESC
-  document.getElementById('videoModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeVideo(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
