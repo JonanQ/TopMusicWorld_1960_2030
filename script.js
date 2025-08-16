@@ -1,3 +1,4 @@
+// === Datos (30 temas) con género ===
 const songs = [
   // 1980s
   { id: "Zi_XLOBDo_Y", title: "Billie Jean - Michael Jackson – 1980s", genre: "Pop / R&B" },
@@ -40,26 +41,74 @@ const songs = [
   { id: "LIIDh-qI9oI", title: "Save Your Tears (Remix) - The Weeknd & Ariana Grande – 2020s", genre: "Synth-pop" }
 ];
 
-
+// === Render + Filtro ===
 const songList = document.getElementById("songList");
+const genreFilter = document.getElementById("genreFilter");
 
-songs.forEach(song => {
-  const li = document.createElement("li");
-  li.innerHTML = `
-    <img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" alt="${song.title}">
-    <a href="#" onclick="loadVideo('${song.id}', event)">${song.title}</a>
-  `;
-  songList.appendChild(li);
-});
-
-function loadVideo(videoId, event) {
-  event.preventDefault();
-  const player = document.getElementById("videoPlayer");
-  player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-  document.getElementById("videoModal").classList.add("show");
+function uniqueGenres(data){
+  return [...new Set(data.map(s => s.genre))].sort((a,b)=>a.localeCompare(b));
+}
+function fillGenreFilter(){
+  uniqueGenres(songs).forEach(g=>{
+    const opt = document.createElement("option");
+    opt.value = g; opt.textContent = g;
+    genreFilter.appendChild(opt);
+  });
+}
+function render(list){
+  songList.innerHTML = "";
+  list.forEach(song=>{
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" alt="${song.title}">
+      <div class="song-main">
+        <a class="song-title" href="#" onclick="loadVideo('${song.id}', event)">${song.title}</a>
+        <span class="genre-pill">${song.genre}</span>
+      </div>
+    `;
+    songList.appendChild(li);
+  });
+}
+function applyFilter(){
+  const val = genreFilter.value;
+  if (val === "__all__") render(songs);
+  else render(songs.filter(s => s.genre === val));
 }
 
-document.getElementById("videoModal").addEventListener("click", () => {
-  document.getElementById("videoModal").classList.remove("show");
-  document.getElementById("videoPlayer").src = "";
+fillGenreFilter();
+render(songs);
+genreFilter.addEventListener("change", applyFilter);
+
+// === Modal / Player ===
+const modal = document.getElementById("videoModal");
+const player = document.getElementById("videoPlayer");
+const closeBtn = document.getElementById("closeBtn");
+const songCover = document.getElementById("songCover");
+const songTitle = document.getElementById("songTitle");
+const songGenre = document.getElementById("songGenre");
+
+window.loadVideo = function(videoId, event){
+  event.preventDefault();
+
+  // set header info
+  const data = songs.find(s=>s.id===videoId);
+  if (data){
+    songTitle.textContent = data.title.replace(/ – \d{4}s$/, "");
+    songGenre.textContent = data.genre;
+    songCover.src = `https://img.youtube.com/vi/${data.id}/mqdefault.jpg`;
+  }
+
+  // Autoplay con sonido (hay clic del usuario → permitido por el navegador)
+  player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+  modal.classList.add("show");
+};
+
+function closeModal(){
+  modal.classList.remove("show");
+  player.src = ""; // detiene el vídeo
+}
+modal.addEventListener("click", (e)=>{
+  if (e.target === modal) closeModal();
 });
+closeBtn.addEventListener("click", closeModal);
+document.addEventListener("keydown",(e)=>{ if (e.key === "Escape") closeModal(); });
