@@ -1,4 +1,4 @@
-const YT_API_KEY = "PON_AQUI_TU_API_KEY";
+const YT_API_KEY = "AIzaSyAUDW9r-U_c-ehm_9fS06VEH0DL_iYfSmE";
 
 async function searchYouTubeFallback(query) {
   const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=5&q=${encodeURIComponent(query)}&key=${YT_API_KEY}`;
