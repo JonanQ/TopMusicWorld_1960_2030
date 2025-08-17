@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Music UK</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+  <h1>Top 50 Canciones - UK</h1>
+  <input type="text" id="searchInput" placeholder="Buscar por artista o título">
+  <select id="decadeFilter">
+    <option value="">Todas las décadas</option>
+    <option value="60s">60s</option>
+    <option value="70s">70s</option>
+    <option value="80s">80s</option>
+    <option value="90s">90s</option>
+    <option value="00s">00s</option>
+    <option value="10s">10s</option>
+    <option value="20s">20s</option>
+  </select>
+  <div id="songList" class="song-list"></div>
+  <div id="videoModal" class="video-modal">
+    <div id="videoPlayer"></div>
+  </div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="continents/europe/uk/songs/uk-songs.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
